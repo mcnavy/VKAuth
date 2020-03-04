@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FriendsList</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='index.css') }}"/>
+</head>
+<body>
+
+    <div class="friends_list" id="root">
+        {% for e in value %}
+        <p><a href={{e['url']}}>{{e['name']}}</a></p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
