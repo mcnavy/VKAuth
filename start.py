@@ -112,29 +112,27 @@ def handle_name():
         'domain': domain,
         'access_token': access_token,
         'user_id': user_id,
-        'fields': 'sex'
+        'fields': projectpath
     }
-    query = "{domain}/friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&v=5.53".format(
+
+
+    query = "{domain}/friends.search?access_token={access_token}&user_id={user_id}&q={fields}&v=5.53".format(
         **query_params)
+
     response = requests.get(query)
 
     friends_all = response.json()['response']['items']
 
 
-    friends_with_name = []
+    value = []
+    for friend in friends_all:
+        full_name = friend['first_name']+' '+ friend['last_name']
+        friend_url = 'https://vk.com/id' +str(friend['id'])
+        value.append({'name':full_name,'url':friend_url})
 
-    for i in range(len(friends_all)):
 
 
-        name = friends_all[i]['first_name']
-        if name == projectpath:
-            full_name = friends_all[i]['first_name'] + ' ' + friends_all[i]['last_name']
-            friend_id = friends_all[i]['id']
-            friend_url = 'https://vk.com/id' + str(friend_id)
-            friend = {'name': full_name, 'url': friend_url}
-            friends_with_name.append(friend)
-
-    return render_template('friends_finder.html',value=friends_with_name)
+    return render_template('friends_finder.html',value=value)
 @app.route('/logout')
 def logout():
 
